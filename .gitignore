@@ -1,0 +1,56 @@
+# -----------------------
+# PYTHON
+# -----------------------
+# Binários e arquivos de compilação
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Ambientes virtuais
+venv/
+.venv/
+
+# Arquivos de banco de dados (SQLite, etc.)
+*.sqlite3
+*.db
+
+# -----------------------
+# VARIÁVEIS DE AMBIENTE E LOGS
+# -----------------------
+# Variáveis de ambiente
+.env
+.env.*
+!example.env  # Excluir explicitamente o arquivo de exemplo
+*.log
+
+# -----------------------
+# FASTAPI / UVICORN / INSTÂNCIA
+# -----------------------
+instance/
+*.pid
+
+# -----------------------
+# FRONTEND (Node/JS/Build)
+# -----------------------
+node_modules/
+dist/
+build/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# -----------------------
+# IDEs e Sistema
+# -----------------------
+# Configurações de IDEs (VS Code, PyCharm, etc.)
+.vscode/
+.idea/
+
+# Arquivos de sistema / OS
+.DS_Store
+Thumbs.db
