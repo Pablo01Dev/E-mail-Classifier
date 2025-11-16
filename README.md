@@ -1,4 +1,5 @@
-git a## 📧 AutoMail Classifier: Classificação e Resposta de E-mails com IA
+
+📧 AutoMail Classifier: Classificação e Resposta de E-mails com IA
 
 Esta é uma aplicação web simples (construída com **FastAPI** e **HTML/Tailwind**) desenhada para automatizar a triagem de e-mails em ambientes de alto volume.
 
