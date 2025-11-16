@@ -1,7 +1,6 @@
 # -----------------------
 # PYTHON
 # -----------------------
-# Binários e arquivos de compilação
 __pycache__/
 *.py[cod]
 *.pyo
@@ -22,15 +21,11 @@ venv/
 !example.env  # Excluir explicitamente o arquivo de exemplo
 *.log
 
-# -----------------------
 # FASTAPI / UVICORN / INSTÂNCIA
-# -----------------------
 instance/
 *.pid
 
-# -----------------------
 # FRONTEND (Node/JS/Build)
-# -----------------------
 node_modules/
 dist/
 build/
@@ -41,9 +36,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# -----------------------
-# IDEs e Sistema
-# -----------------------
 # Configurações de IDEs (VS Code, PyCharm, etc.)
 .vscode/
 .idea/
