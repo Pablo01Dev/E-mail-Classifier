@@ -4,6 +4,11 @@ load_dotenv()
 import os
 from openai import OpenAI
 
+# --- REMOVER PROXIES QUE O RENDER INJETA ---
+for var in ["HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY"]:
+    if var in os.environ:
+        del os.environ[var]
+
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # ZERO-SHOT CLASSIFICATION
@@ -25,7 +30,7 @@ def zero_shot_category(text: str):
         """
 
         completion = client.chat.completions.create(
-            model="gpt-4o-mini",   # << --- MODELO FREE
+            model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=200
         )
@@ -37,7 +42,6 @@ def zero_shot_category(text: str):
     except Exception as e:
         print("ERRO ZERO-SHOT:", e)
         return None
-
 
 # REFINE REPLY 
 def refine_reply(email_text: str, template: str):
@@ -56,7 +60,7 @@ def refine_reply(email_text: str, template: str):
         """
 
         completion = client.chat.completions.create(
-            model="gpt-4o-mini", 
+            model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=300
         )
