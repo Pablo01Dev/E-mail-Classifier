@@ -2,14 +2,20 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import os
+
+# Remove proxies do ambiente (Render injects estes automaticamente)
+PROXY_VARS = [
+    "HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY",
+    "http_proxy", "https_proxy", "all_proxy"
+]
+
+for var in PROXY_VARS:
+    os.environ.pop(var, None)
+
 from openai import OpenAI
 
-# --- REMOVER PROXIES QUE O RENDER INJETA ---
-for var in ["HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY"]:
-    if var in os.environ:
-        del os.environ[var]
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 
 # ZERO-SHOT CLASSIFICATION
 def zero_shot_category(text: str):
