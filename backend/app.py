@@ -1,17 +1,15 @@
 from fastapi import FastAPI, UploadFile, File, Form
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn, os
 
 from dotenv import load_dotenv
-load_dotenv() 
+load_dotenv()
 
 from classifier import classify_email, generate_reply, save_feedback, retrain_from_feedback
 from nlp import read_text_from_upload
 
-APP_TITLE = "AutoMail Classifier"
-app = FastAPI(title=APP_TITLE)
+app = FastAPI(title="AutoMail Classifier")
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,15 +18,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# serve static index.html
-app.mount("/static", StaticFiles(directory="../frontend"), name="static")
-
-
-@app.get("/", response_class=HTMLResponse)
-def index():
-    with open("../frontend/index.html", "r", encoding="utf-8") as f:
-        return HTMLResponse(f.read())
 
 @app.post("/api/process")
 async def process_email(
@@ -61,7 +50,6 @@ async def process_email(
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
-
 @app.post("/api/feedback")
 async def feedback(
     original_text: str = Form(...),
@@ -75,12 +63,10 @@ async def feedback(
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
-
 @app.post("/api/retrain")
 async def retrain():
     ok = retrain_from_feedback()
     return {"retrained": bool(ok)}
-
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
