@@ -1,3 +1,8 @@
+⚠️ Antes de tudo, por gentileza, assista ao vídeo de apresentação: {LINK}
+
+Tive um imprevisto ontem e só consegui finalizar o vídeo hoje, mas garanti que ele explicasse de forma clara o funcionamento da solução, as escolhas técnicas e como utilizar o sistema.
+
+---
 
 📧 AutoMail Classifier: Classificação e Resposta de E-mails com IA
 
