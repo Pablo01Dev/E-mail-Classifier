@@ -6,7 +6,7 @@ Tive um imprevisto ontem e só consegui finalizar o vídeo hoje, mas garanti que
 
 📧 AutoMail Classifier: Classificação e Resposta de E-mails com IA
 
-Esta é uma aplicação web simples (construída com **FastAPI** e **HTML/Tailwind**) desenhada para automatizar a triagem de e-mails em ambientes de alto volume.
+Esta é uma aplicação web simples (construída com **FastAPI** e **React**) desenhada para automatizar a triagem de e-mails em ambientes de alto volume.
 
 ### Funcionalidades Principais
 
