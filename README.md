@@ -1,4 +1,4 @@
-⚠️ Antes de tudo, por gentileza, assista ao vídeo de apresentação: [{Youtube}](https://youtu.be/_XrhJh2E6EU)
+⚠️ Antes de tudo, por gentileza, assista ao vídeo de apresentação: [{Youtube}](https://youtu.be/r_dT1FFAADw)
 
 Tive um imprevisto ontem e só consegui finalizar o vídeo hoje, mas garanti que ele explicasse de forma clara o funcionamento da solução, as escolhas técnicas e como utilizar o sistema.
 
