@@ -192,7 +192,7 @@ frontend/
 
 * React
 * Vite
-* Css
+* CSS
 ---
 
 # 🌐 Demonstração
