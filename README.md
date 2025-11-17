@@ -1,134 +1,223 @@
-⚠️ Antes de tudo, por gentileza, assista ao vídeo de apresentação: [{Youtube}](https://youtu.be/r_dT1FFAADw)
+# 📧 AutoMail Classifier — Classificação Inteligente de E-mails com IA
 
-Tive um imprevisto ontem e só consegui finalizar o vídeo hoje, mas garanti que ele explicasse de forma clara o funcionamento da solução, as escolhas técnicas e como utilizar o sistema.
-
----
-
-📧 AutoMail Classifier: Classificação e Resposta de E-mails com IA
-
-Esta é uma aplicação web simples (construída com **FastAPI** e **React**) desenhada para automatizar a triagem de e-mails em ambientes de alto volume.
-
-### Funcionalidades Principais
-
-* **Classificação Automática**: Categoriza e-mails em **Produtivo** (requer ação) ou **Improdutivo** (agradecimentos, felicitações, etc.) usando um modelo híbrido (regras + TF-IDF/LogReg).
-* **Geração de Resposta Sugerida**: Apresenta uma resposta automática adequada ao contexto e à categoria identificada.
+⚠️ Antes de tudo, por favor assista ao vídeo de apresentação: **[{YouTube}](https://youtu.be/r_dT1FFAADw)**
+No vídeo explico de forma clara o funcionamento da solução, as decisões técnicas e como utilizar o sistema.
 
 ---
 
-## 🚀 Como Rodar Localmente
+Esta é uma aplicação web desenvolvida com **FastAPI (backend)** e **React + Vite (frontend)**, projetada para automatizar a triagem de e-mails em ambientes de alto volume, classificando e sugerindo respostas automáticas.
 
-Siga estes passos para configurar e executar a aplicação em sua máquina:
+---
 
-### 1. Configuração do Ambiente e Dependências
+## ✨ Funcionalidades Principais
 
-```bash
-# Crie e ative o ambiente virtual
-python -m venv .venv 
-. .venv/bin/activate  # Linux/macOS
-# .venv\Scripts\activate  # Windows
+* **Classificação Automática**
+  Categoriza e-mails em **Produtivo** ou **Improdutivo** usando um modelo híbrido (Regras + TF-IDF/LogReg).
 
-# Instale as dependências
-pip install -r requirements.txt
-````
+* **Sugestão Automática de Resposta**
+  Gera uma resposta adequada ao contexto e à categoria detectada.
 
-### 2\. Configuração da Chave API (Obrigatório)
+---
 
-Se o seu classificador ou gerador de respostas utiliza um serviço externo (como OpenAI, Hugging Face, etc.), você **deve configurar a chave API**.
+# 🚀 Como Rodar Localmente
 
-  * Crie um arquivo chamado **`.env`** na raiz do projeto (o mesmo local de `app.py`).
-  * Copie o conteúdo de **`.env.example`** para o novo arquivo.
-  * Substitua o valor de `YOUR_API_KEY_HERE` pela sua chave real.
-
-> ⚠️ **Atenção**: O arquivo `.env` não deve ser commitado publicamente por questões de segurança. O `.env.example` é fornecido para referência.
-
-### 3\. Execução da Aplicação
-
-Inicie o servidor local:
+## 1. Clone o repositório
 
 ```bash
-python app.py
+git clone https://github.com/SEU_USUARIO/automail-classifier.git
+cd automail-classifier
 ```
 
-  * **Acesse a Interface**: Abra seu navegador e acesse a URL: **http://localhost:8000**
+A estrutura geral agora é:
 
------
+```
+backend/
+frontend/
+```
 
-## ☁️ Instruções de Deploy (Exemplo: Render)
+---
 
-Para colocar a aplicação online de forma rápida:
+# 🖥️ Backend (FastAPI)
 
-1.  Faça **fork** deste repositório para sua conta no GitHub.
-2.  No painel do **Render**, clique em *New +* \> *Web Service* e conecte seu GitHub.
-3.  Configure os parâmetros do serviço:
-      * **Runtime**: Python 3.11
-      * **Build command**: `pip install -r requirements.txt`
-      * **Start command**: `python app.py` (ou `uvicorn app:app --host 0.0.0.0 --port $PORT` se estiver usando Uvicorn/FastAPI)
-4.  **Variáveis de Ambiente**: Na seção *Environment*, adicione a variável com sua chave API (ex.: `OPENAI_API_KEY` ou `HF_TOKEN`) para corresponder ao que está configurado em seu `.env.example`.
-5.  Acesse a URL gerada pelo Render.
+## 2. Criar ambiente virtual e instalar dependências
 
------
+```bash
+cd backend
 
-## 📂 Estrutura do Projeto
+python -m venv .venv
+# Linux/Mac
+source .venv/bin/activate
+# Windows
+# .venv\Scripts\activate
 
-| Arquivo/Pasta | Descrição |
-| :--- | :--- |
-| `app.py` | Ponto de entrada. Contém a inicialização do **FastAPI** e as rotas da API. |
-| `classifier.py` | Implementa o **Classificador Híbrido** e a lógica de **Geração de Respostas** (baseado em templates). |
-| `nlp.py` | Funções de **Pré-processamento de Linguagem Natural** (normalização, tokenização) e rotinas para leitura de arquivos (.pdf/.txt). |
-| `static/index.html` | **Interface de Usuário** (UI). Utiliza **Tailwind CSS** via CDN para estilização. |
-| `requirements.txt` | Lista de bibliotecas Python necessárias para rodar a aplicação. |
-| `.env.example` | Template para variáveis de ambiente (API Keys). |
+pip install -r requirements.txt
+```
 
------
+## 3. Configurar a chave API
 
-## 🧠 Detalhes do Modelo de Classificação
+1. Copie o arquivo `.env.example` para `.env`
+2. Substitua `YOUR_API_KEY_HERE` pela sua chave real
 
-O sistema utiliza uma abordagem de classificação **híbrida** para otimizar a precisão e a velocidade:
+⚠️ Não faça commit do arquivo `.env`.
 
-  * **Regras Determinísticas**: Palavras-chave de alta relevância (`status`, `protocolo`, `anexo`, `feliz natal`, etc.) geram uma probabilidade *prior* inicial.
-  * **Modelo de Aprendizado de Máquina**: Uma representação do texto via **TF-IDF** é passada para um modelo de **Regressão Logística** treinado em um conjunto de dados inicial (*seed set*).
-  * **Combinação**: A classificação final é determinada pela **média das probabilidades** preditas pelo modelo e a probabilidade *prior* das regras.
-  * **Respostas Sugeridas**: A resposta é selecionada e customizada a partir de **templates** específicos para diferentes intenções (suporte, financeiro, solicitação de status, etc.).
+## 4. Rodar o backend
 
------
+```bash
+uvicorn app:app --reload --port 8000
+```
 
-## 💡 Próximas Melhorias Sugeridas
+Backend estará em:
+➡️ [http://localhost:8000](http://localhost:8000)
 
-O projeto pode ser expandido com as seguintes funcionalidades avançadas:
+---
 
-  * **Troca de Classificador**: Migração para modelos de *zero-shot* (ex.: `bart-large-mnli`) ou uso de **LLMs** (OpenAI/Hugging Face) com *few-shot learning* para maior precisão sem treinamento extensivo.
-  * **Aprendizado Contínuo**: Implementar um loop de *feedback* onde o operador pode corrigir rótulos (rótulos de ouro), salvando-os para um **retreinamento** (online learning) periódico.
-  * **Análise de Anexos**: Adicionar detecção e processamento de *attachments* para rotear tarefas (ex.: abrir ticket, mover arquivo para pasta específica).
-  * **Segurança e Privacidade**: Implementar rotinas de **PII Sanitization** e mascaramento de dados sensíveis antes do envio a APIs de LLMs externos.
+# 🎨 Frontend (React + Vite)
 
------
+## 1. Instalar dependências
 
-## 🏆 Objetivo e Tecnologias-Chave
+```bash
+cd ../frontend
+npm install
+```
 
-O principal objetivo deste projeto foi aplicar conhecimentos de **Integração de Sistemas** e **Processamento de Linguagem Natural (NLP)**. As tecnologias centrais utilizadas incluem:
+## 2. Executar o servidor de desenvolvimento
 
-  * **Backend**: Python, **FastAPI** (para alta performance).
-  * **Classificação**: Modelo Híbrido (Regras + TF-IDF/LogReg).
-  * **Frontend**: HTML, JavaScript e **Tailwind CSS** (via CDN) para uma interface responsiva e moderna.
+```bash
+npm run dev
+```
 
------
+O frontend estará disponível em:
+➡️ [http://localhost:5173](http://localhost:5173)
 
-## 💻 Demonstração Online
+E já estará configurado para se comunicar com o backend em `http://localhost:8000`.
 
-Você pode acessar o resultado final da aplicação de classificação de e-mails, hospedada na nuvem, no link abaixo:
+---
 
-  * **Acessar a Aplicação** (Substitua este link pela sua URL de deploy real, ex: Render/Vercel)
+# ☁️ Deploy (Render)
 
------
+### Backend (FastAPI)
 
-## 🙋🏻‍♂️ Autor
+1. Faça **fork** do repositório
+2. No Render: *New +* → *Web Service*
+3. Configure:
 
-Pablo Guimarães
+   * **Runtime**: Python 3.11
+   * **Build command**:
 
------
+     ```
+     pip install -r backend/requirements.txt
+     ```
+   * **Start command**:
 
-## 📄 Licença
+     ```
+     uvicorn app:app --host 0.0.0.0 --port $PORT
+     ```
+4. Adicione as variáveis de ambiente (ex: `OPENAI_API_KEY`)
+
+### Frontend (React + Vite)
+
+1. Criar novo **Static Site** no Render
+2. Configurar:
+
+   * **Build Command**:
+
+     ```
+     npm install && npm run build
+     ```
+   * **Publish Directory**:
+
+     ```
+     dist
+     ```
+3. Se necessário, configurar proxy em `vite.config.js` para o backend
+
+---
+
+# 📂 Estrutura do Projeto
+
+```
+backend/
+├── app.py                 # Ponto de entrada da API
+├── classifier.py          # Classificador híbrido + respostas automáticas
+├── nlp.py                 # Pré-processamento e leitura de arquivos
+├── requirements.txt
+└── .env.example
+
+frontend/
+├── index.html
+├── src/
+│   ├── App.jsx
+│   ├── services/api.js
+├── package.json
+└── vite.config.js
+```
+
+---
+
+# 🧠 Como Funciona o Classificador
+
+* **Regras determinísticas**
+  Palavras-chave como “protocolo”, “status”, “feliz natal”, etc.
+
+* **Modelo TF-IDF + Logistic Regression**
+  Treinado em um *seed set* inicial.
+
+* **Combinação Híbrida**
+  A probabilidade final é a média ponderada entre regras e modelo ML.
+
+* **Geração de Resposta**
+  Seleção automática via templates específicos para cada intenção.
+
+---
+
+# 🛠️ Próximas Melhorias
+
+* Migrar para zero-shot (ex.: `bart-mnli`) ou LLMs (OpenAI / HuggingFace)
+* Loop de feedback com *retreinamento*
+* Detecção e tratamento avançado de anexos
+* Sanitização de PII para maior segurança
+
+---
+
+# 🏆 Tecnologias Utilizadas
+
+### Backend
+
+* Python
+* FastAPI
+* scikit-learn
+* Uvicorn
+
+### Frontend
+
+* React
+* Vite
+* Css
+---
+
+# 🌐 Demonstração
+
+> [Inclua aqui seu link final do Render quando estiver ativo.](https://e-mail-classifier.onrender.com)
+
+---
+
+# 🙋🏻‍♂️ Autor
+
+**Pablo Guimarães**
+
+---
+
+# 📄 Licença
 
 Este projeto está sob a licença **MIT**.
 
-```
+---
+
+Se quiser, posso:
+
+✅ gerar uma versão *super profissional* estilo open-source
+✅ incluir badges (build passing, license, tech stack)
+✅ adicionar GIF da interface
+✅ montar um README multilíngue (PT/EN)
+
+Só pedir!
