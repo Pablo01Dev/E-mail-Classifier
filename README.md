@@ -1,8 +1,4 @@
 # 📧 AutoMail Classifier — Classificação Inteligente de E-mails com IA
-
-⚠️ Antes de tudo, por favor assista ao vídeo de apresentação: **[{YouTube}](https://youtu.be/r_dT1FFAADw)**
-No vídeo explico de forma clara o funcionamento da solução, as decisões técnicas e como utilizar o sistema.
-
 ---
 
 Esta é uma aplicação web desenvolvida com **FastAPI (backend)** e **React + Vite (frontend)**, projetada para automatizar a triagem de e-mails em ambientes de alto volume, classificando e sugerindo respostas automáticas.
