@@ -193,7 +193,7 @@ frontend/
 
 # 🌐 Demonstração
 
-> [E-mail Classifier](https://e-mail-classifier.onrender.com)
+> [E-mail Classifier](https://e-mail-classifier.vercel.app/)
 
 ---
 
